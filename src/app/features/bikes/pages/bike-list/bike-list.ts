@@ -1,0 +1,20 @@
+import { Component, inject } from '@angular/core';
+import { BikeService } from '../../services/bike.service';
+import { BikeCard } from '../../components/bike-card/bike-card';
+import { RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { withLoadState } from '../../../../shared/load-state.js'
+import { MatAnchor } from '@angular/material/button';
+
+
+@Component({
+  selector: 'app-bike-list',
+  imports: [BikeCard, RouterLink, MatAnchor],
+  templateUrl: './bike-list.html',
+  styleUrl: './bike-list.scss',
+})
+export class BikeList{
+  private bikeService = inject(BikeService);
+  bikes = toSignal(this.bikeService.getBikes());
+  state = toSignal(withLoadState(this.bikeService.getBikes()), { requireSync: true });
+}

@@ -1,0 +1,20 @@
+<h2>Bike List</h2>
+<div class="buttons">
+<a matbutton matButton="filled" routerLink="/bikes/new">Add New Bike</a>
+<a matbutton matButton="filled" routerLink="/">Go Home</a>
+</div>
+@let s = state();
+<!-- s is signal -->
+@if (s.status === 'loading') {
+  <p>Loading bikes</p>
+} @else if (s.status === 'error') {
+  <p>{{ s.message }}</p>
+} @else if (s.data.length === 0) {
+  <p>No bikes available at the moment</p>
+} @else {
+  <div class="grid">
+    @for (bike of s.data; track bike._id) {
+      <app-bike-card [bike]="bike" />
+    }
+  </div>
+}
